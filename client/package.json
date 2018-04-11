@@ -86,10 +86,16 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      "react-hot-loader/babel"
     ]
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:5000/"
+  "proxy": "http://localhost:5000/",
+  "devDependencies": {
+    "react-hot-loader": "^4.0.0"
+  }
 }
