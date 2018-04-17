@@ -10,7 +10,8 @@ import {
 } from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-
+import axios from 'axios';
+/*
 const styles = {
   propContainer: {
     width: 200,
@@ -21,14 +22,8 @@ const styles = {
     margin: '20px auto 10px',
   },
 };
-
-const tableData = [
-  {
-    name: 'John Smith',
-    status: 'Employed',
-    date: '2018-04-13'
-  },
-];
+*/
+let test;
 
 /**
  * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
@@ -45,7 +40,44 @@ export default class Contents extends Component {
     deselectOnClickaway: true,
     showCheckboxes: false,
     height: '600px',
+    data: [
+      {
+        title: 'title',
+        writer: 'Employed',
+        date: '2018-05-13',
+        views:0
+      },
+    ]
   };
+/*
+  getPosts = async () => {
+    const info = await axios.get('/api/board/');
+  }
+*/
+
+  getPosts = () => {
+    return axios.get('/api/board');
+  }
+
+  fetchPostInfo = async () => {
+      const info = await this.getPosts();
+      test = info.data;
+      this.setState({
+        data: test[0]
+      });
+      console.log(test[0]);
+  }
+
+  componentDidMount(){
+    this.fetchPostInfo();
+  }
+
+  /*
+    axios.get('/api/hello').then(response => {
+      console.log(response.data);
+    });
+  */
+
 
   handleToggle = (event, toggled) => {
     this.setState({
@@ -73,7 +105,7 @@ export default class Contents extends Component {
             enableSelectAll={this.state.enableSelectAll}
           >
             <TableRow>
-              <TableHeaderColumn colSpan="4" tooltip="Super Header" style={{textAlign: 'right'}}>
+              <TableHeaderColumn colSpan="5" tooltip="Super Header" style={{textAlign: 'right'}}>
               <TextField
                 hintText="제목"
               />
@@ -84,8 +116,9 @@ export default class Contents extends Component {
             <TableRow>
               <TableHeaderColumn tooltip="The ID">ID</TableHeaderColumn>
               <TableHeaderColumn tooltip="The Name">제목</TableHeaderColumn>
-              <TableHeaderColumn tooltip="The Status">글쓴이</TableHeaderColumn>
-              <TableHeaderColumn tooltip="The Status">날짜</TableHeaderColumn>
+              <TableHeaderColumn tooltip="The Writer">글쓴이</TableHeaderColumn>
+              <TableHeaderColumn tooltip="The Date">날짜</TableHeaderColumn>
+              <TableHeaderColumn tooltip="The Views">조회수</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -94,12 +127,13 @@ export default class Contents extends Component {
             showRowHover={this.state.showRowHover}
             stripedRows={this.state.stripedRows}
           >
-            {tableData.map( (row, index) => (
+            {this.state.data.map( (row, index) => (
               <TableRow key={index}>
                 <TableRowColumn>{index}</TableRowColumn>
-                <TableRowColumn>{row.name}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
+                <TableRowColumn>{row.title}</TableRowColumn>
+                <TableRowColumn>{row.writer}</TableRowColumn>
                 <TableRowColumn>{row.date}</TableRowColumn>
+                <TableRowColumn>{row.views}</TableRowColumn>
               </TableRow>
               ))}
           </TableBody>
