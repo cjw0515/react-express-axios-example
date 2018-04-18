@@ -47,12 +47,15 @@ handleBodyChange = (e) => {
 }
 
 sendContents = () => {
-  axios.post('/api/content', {
-    name: '가나다라',
-    body: '내요요용요용'
+  axios.post('/api/content/', {
+    name: this.state.name,
+    body: this.state.body
   })
   .then(
-    response => {console.log('success')}
+    response => {
+      console.log(response.body);      
+      this.loadContents();
+    }
   )
 }
 
