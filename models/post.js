@@ -4,7 +4,11 @@ const Schema = mongoose.Schema;
 
 const Post = new Schema({
   name: String,
-  body: String,  
+  body: String,
+  updateFlag: {
+    type: Boolean,
+    default: false
+  }
 });
 
 export default mongoose.model('Post', Post);

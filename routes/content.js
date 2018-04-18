@@ -30,4 +30,21 @@ router.get('/', (req, res) => {
   })
 })
 
+router.delete('/:id', (req, res) => {
+  console.log('ondelete');
+  Post.findById(req.params.id, (err, post) => {
+    if(err) throw err;
+
+    if(!post){
+      return res.status(404).json({
+        error: "NO DATA"
+      })
+    }
+
+    Post.remove({ _id: req.params.id }, err => {
+      if(err) throw err;
+      res.json({ success: true });
+    });
+  });
+});
 export default router;

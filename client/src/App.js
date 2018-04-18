@@ -33,6 +33,14 @@ handleClick = () => {
   this.sendContents();
 }
 
+handleDelete = (id) => {
+  this.deletePost(id);
+}
+
+handleUpdate = (id) => {
+  
+}
+
 handleNameChange = (e) => {
 
   this.setState({
@@ -53,7 +61,11 @@ sendContents = () => {
   })
   .then(
     response => {
-      console.log(response.body);      
+      console.log(response.body);
+      this.setState({
+        name:'',
+        body:''
+      })
       this.loadContents();
     }
   )
@@ -72,10 +84,21 @@ loadContents = () => {
   )
 }
 
+deletePost = (id) => {
+  axios.delete('/api/content/' + id).then(
+    (response) => {
+      //console.log(response);
+      this.loadContents();
+    }
+  )
+}
 
+updatePost = (id) => {
+
+}
 
   render() {
-    const { handleBodyChange, handleNameChange, handleClick } = this;
+    const { handleBodyChange, handleNameChange, handleClick, handleDelete } = this;
     const { name, body, items } = this.state;
     return (
       <div>
@@ -89,6 +112,7 @@ loadContents = () => {
          />
         <Contents
           items={items}
+          onDelete={handleDelete}
           />
       </div>
     );
