@@ -1,8 +1,8 @@
 import express from 'express';
-import board from './board';
+import content from './content';
 
 const router = express.Router();
 
-router.use('/board', board);
+router.use('/content', content);
 
 export default router;
