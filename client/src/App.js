@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Input from './components/inputtxt'
-import Contents from './components/contents'
-import Header from './components/header'
+import Input from './components/Inputtxt'
+import ContentList from './components/ContentList'
+import Header from './components/Header'
 import axios from 'axios';
 
 class App extends Component {
@@ -37,14 +37,25 @@ handleDelete = (id) => {
   this.deletePost(id);
 }
 
-handleUpdate = (id) => {
-  
+handleUpdate = (id, content) => {
+  return this.updatePost(id, content)
 }
 
 handleNameChange = (e) => {
-
   this.setState({
     name: e.target.value
+  });
+}
+
+handleBodyChange = (e) => {
+  this.setState({
+    body: e.target.value
+  });
+}
+
+handleBodyChange = (e) => {
+  this.setState({
+    body: e.target.value
   });
 }
 
@@ -93,12 +104,17 @@ deletePost = (id) => {
   )
 }
 
-updatePost = (id) => {
-
+updatePost = (id, content) => {
+  return axios.put('/api/content/' + id, {content}).then(
+    (response) => {
+      console.log(response);
+      this.loadContents();
+    }
+  )
 }
 
   render() {
-    const { handleBodyChange, handleNameChange, handleClick, handleDelete } = this;
+    const { handleBodyChange, handleNameChange, handleClick, handleDelete, handleUpdate } = this;
     const { name, body, items } = this.state;
     return (
       <div>
@@ -110,9 +126,10 @@ updatePost = (id) => {
           bodyValue = {body}
           onClick={handleClick}
          />
-        <Contents
+        <ContentList
           items={items}
           onDelete={handleDelete}
+          onUpdate={handleUpdate}
           />
       </div>
     );

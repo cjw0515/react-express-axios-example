@@ -47,4 +47,29 @@ router.delete('/:id', (req, res) => {
     });
   });
 });
+
+router.put('/:id', (req, res) => {
+  //찾기
+  Post.findById(req.params.id, (err, post) => {
+    if(err) throw err;
+
+    if(!post) {
+      return res.status(404).json({
+        error: "no data"
+      })
+    }
+
+    //수정
+    console.log(req.body.content);
+    post.body = req.body.content;
+
+    post.save((err, post) => {
+      if(err) throw err;
+      return res.json({
+        success: true
+      })
+    })
+
+  })
+})
 export default router;
